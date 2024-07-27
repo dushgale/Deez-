@@ -1,0 +1,85 @@
+<?php
+session_start();
+require_once 'connection.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up / Sign In</title>
+    <link rel="stylesheet" href="sign.css">
+
+    <script>
+    function checkPassword(event) {
+        let pw = document.getElementById("txtPassword").value;
+        let cpw = document.getElementById("txtConfirmPassword").value;
+        if (pw !== cpw) {
+            alert("Password and confirm password should be the same");
+            event.preventDefault();
+        }
+    }
+
+		<?php
+			if(isset($_GET["msg"])){
+				if($_GET["msg"] == 1){
+					?>
+					alert("User Account Created Sucessfully Please Login!");
+					<?php
+				}else if($_GET["msg"] == 0){
+					?>
+					alert("There Were Some Error, Please Try Again!");
+					<?php
+				}else if($_GET["msg"] == 2){
+					?>
+					alert("User Name or Password missmached, Please Try Again!");
+					<?php
+				}
+			}
+		?>	
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+    <div class="form-container">
+        <div class="form-toggle">
+            <button id="showSignUp">Sign Up</button>
+            <button id="showSignIn" class="disable">Sign In</button>
+        </div>
+        <form id="signUpForm" method="POST" action="regHandler.php">
+            <h2>Sign Up</h2>
+            <input type="text" placeholder="Name" name="txtName" id="txtName" required/> 
+            <input type="email" placeholder="Email" required name="txtEmail" id="txtEmail"/>
+            <input type="password" placeholder="Password" id="txtPassword" name="txtPassword" required/> 
+            <input type="password" placeholder="Confirm Password" id="txtConfirmPassword" name="txtConfirmPassword" > 
+            <input type="number" placeholder="Contact Number" name="txtContactNo" id="txtContactNo" pattern="[0-9]{10}" required /> 
+            <button type="submit" name="signUpSubmit" onClick="checkPassword(event)">Sign Up</button>
+        </form>
+        <form id="signInForm" style="display:none;" method="POST" action="LoginHandler.php">
+            <h2>Sign In</h2>
+            <input type="email" placeholder="Email" required name="txtEmail" id="txtEmail"/>
+            <input type="password" placeholder="Password" id="txtPassword" name="txtPassword" required/>
+            <button type="submit" name="signInSubmit">Sign In</button>
+        </form>
+    </div>
+    </div>
+
+    <script>
+    document.getElementById('showSignUp').addEventListener('click', function() {
+        document.getElementById('signUpForm').style.display = 'block';
+        document.getElementById('signInForm').style.display = 'none';
+    });
+
+    document.getElementById('showSignIn').addEventListener('click', function() {
+        document.getElementById('signUpForm').style.display = 'none';
+        document.getElementById('signInForm').style.display = 'block';
+    });
+
+
+    </script>
+
+</body>
+</html>
